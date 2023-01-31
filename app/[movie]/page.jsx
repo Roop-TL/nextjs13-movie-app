@@ -1,9 +1,13 @@
 import Image from "next/image";
 
+//To serve the individual movie page as static pages from the build
 export async function generateStaticParams() {
   const data = await fetch(`
 https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`);
   const res = await data.json();
+  return res.results.map((movie) => ({
+    movie: toString(movie.id),
+  }));
 }
 export default async function MovieDetail({ params }) {
   //console.log(params);
